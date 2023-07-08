@@ -1,0 +1,9 @@
+Birbfetch is a tiny neofetch-like program I wrote for my DIY Linux based
+operating system MCL (Minki's Crappy Linux).
+This script is designed to work on very old versions of the bash interpreter
+and can use the busybox internal free command without parameters to parse
+RAM data. This allows it to operate on embedded systems without additional
+dependencies. Included is also an ASCII art image of MCLs logo.
+
+If anyone wants to continue the development of this program, feel free to copy
+and improve it. Just keep in mind to mention me as the original creator.

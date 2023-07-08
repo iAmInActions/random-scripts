@@ -1,0 +1,49 @@
+#!/bin/bash
+################################################################################
+# birbfetch
+#
+# A tiny neofetch clone made specifically for the MCL 1.2 distribution.
+# Regex generated using OpenAIs advanced regex generator aka ChatGPT.
+# This program was written by mueller_minki.
+# Use at own risk, modify and share if you want.
+################################################################################
+
+# Define colors
+UNIT="\033[1;35m"
+NOTE="\033[1;34m"
+RESULT="\033[1;32m"
+NOCOLOR="\033[0m"
+
+# Display the ASCII artwork (if file is given display file instead):
+if ${1+"false"}
+then
+   if test -f "/etc/fetchart"
+   then
+     cat "/etc/fetchart"
+     echo -n -e "\033[0m"
+   else
+     echo "No ASCII art found."
+   fi
+else
+   cat $1
+   echo -n -e "\033[0m"
+fi
+
+# Gather system information:
+OS=$(uname -s)
+CPU=$(cat /proc/cpuinfo | grep "model name" | sed 's/^[^:]*://' | sed '2,$d')
+TOTALRAM=$(free | grep "Mem:" | sed -n 's/[^0-9]*\([0-9]*\).*/\1/p')
+USEDRAM=$(free | grep "Mem:" | sed 's/.*[[:space:]]\([0-9]\+\)[[:space:]].*/\1/')
+UPTIME=$(uptime | sed -n 's/.* up \([^,]*\),.*/\1/p')
+ARCH=$(uname -m)
+KERNEL=$(uname -r)
+
+echo -e "$UNIT-----------------------------------------------------------$NOCOLOR"
+echo -e "$RESULT $(whoami)$NOCOLOR$NOTE@$NOCOLOR$RESULT$(hostname)$NOCOLOR"
+echo -e "$UNIT ===$NOCOLOR"
+echo -e "$NOTE OS:$NOCOLOR$RESULT $OS$NOCOLOR $NOTE($NOCOLOR$RESULT$ARCH$NOCOLOR$NOTE)$NOCOLOR"
+echo -e "$NOTE CPU:$NOCOLOR$RESULT$CPU$NOCOLOR"
+echo -e "$NOTE Memory:$NOCOLOR $RESULT$TOTALRAM$NOCOLOR$UNIT KiB$NOCOLOR$NOTE Total,$NOCOLOR$RESULT $USEDRAM$NOCOLOR$UNIT KiB$NOCOLOR$NOTE Used.$NOCOLOR"
+echo -e "$NOTE Kernel:$NOCOLOR $RESULT$KERNEL$NOCOLOR"
+echo -e "$NOTE Uptime:$NOCOLOR $RESULT$UPTIME$NOCOLOR"
+echo -e "$UNIT-----------------------------------------------------------$NOCOLOR"
