@@ -34,12 +34,12 @@ kill $PLAYERID
 case $channel in
 1)
   prchan="80s80s"
-  "$PLAYER" "https://80s80s.hoerradar.de/80s80s-mweb-mp3-hq" $PLAYERARGS &
+  "$PLAYER" "https://streams.80s80s.de/web/mp3-192/" $PLAYERARGS &
   PLAYERID=$!
   ;;
 2)
   prchan="80s80s In the mix"
-  "$PLAYER" "https://80s80s.hoerradar.de/80s80s-mix-mp3-hq" $PLAYERARGS &
+  "$PLAYER" "https://regiocast.streamabc.net/regc-80s80smix8012507-mp3-192-3015055" $PLAYERARGS &
   PLAYERID=$!
   ;;
 3)
