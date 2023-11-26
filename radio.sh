@@ -14,6 +14,7 @@ else
 fi
 
 channel=$(dialog --backtitle "$prdisp" --menu "Choose a station:" 18 45 25 \
+  0 "Stop playback" \
   1 "80s80s" \
   2 "80s80s In the mix" \
   3 "100,5" \
@@ -32,6 +33,9 @@ clear
 kill $PLAYERID
 
 case $channel in
+0)
+  prchan=
+  ;;
 1)
   prchan="80s80s"
   "$PLAYER" "https://streams.80s80s.de/web/mp3-192/" $PLAYERARGS &
