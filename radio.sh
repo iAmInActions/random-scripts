@@ -24,7 +24,7 @@ channel=$(dialog --backtitle "$prdisp" --menu "Choose a station:" 18 45 25 \
   7 "Antenne AC" \
   8 "WDR Cosmo" \
   9 "Radio21" \
-  10 "Radio Digby" \
+  10 "XMAS Radio" \
   11 "Exit" \
   3>&1 1>&2 2>&3 
 )
@@ -82,8 +82,8 @@ case $channel in
   PLAYERID=$!
   ;;
 10)
-  prchan="Radio Digby"
-  "$PLAYER" "http://ourdns.zone:8000/radiodigby.mp3" $PLAYERARGS &
+  prchan="XMAS Radio"
+  "$PLAYER" "https://regiocast.streamabc.net/regc-80s80sevent014441101-mp3-192-8841017" $PLAYERARGS &
   PLAYERID=$!
   ;;
 11)
