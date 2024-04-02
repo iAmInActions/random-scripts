@@ -13,7 +13,7 @@
 # Import libraries (you need to install the discord library with "pip3 install discord")
 import discord
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from discord.ext import tasks
 
 # CONFIGURATION SECTION
@@ -52,22 +52,29 @@ async def on_ready():
 @tasks.loop(minutes=30)
 async def check_spam_role_and_timeout():
     global guild, channel, role, user_messages
-    user_messages.clear()  # Clear user_messages dictionary
+
     if role is None:
         await channel.send(f"Role '{spam_role_name}' not found.")
         return
 
     # Get all members who have the role but are not timed out
-    members_with_role = [member for member in guild.members if role in member.roles and not any(role.name == "Certified Spam" for role in member.roles)]
-    if members_with_role:
-        timeout_message = "Users with the 'Certified Spam' role:"
-        for member in members_with_role:
-            timeout_message += f"\n{member.display_name}"
-            # Apply timeout for 1 day
-            await member.timeout(datetime.utcnow() + timedelta(days=1), reason="Certified Spam")
-        await channel.send(timeout_message)
-    else:
+    untimed_members = []
+    for member in guild.members:
+        if role in member.roles:
+            if not any(role.name == "Certified Spam" for role in member.roles):
+                continue  # Skip if already Certified Spam
+            if not member.is_timed_out():
+                untimed_members.append(member)
+                # Apply timeout for 1 day
+                await member.timeout(datetime.now(timezone.utc) + timedelta(days=1), reason="Certified Spam")
+
+    if not untimed_members:
         print("No users with the 'Certified Spam' role found who are not timed out.")
+    else:
+        timeout_message = "New 'Certified Spam' role members:\n"
+        for member in untimed_members:
+            timeout_message += f"{member.display_name}\n"
+        await channel.send(timeout_message)
 
 @client.event
 async def on_message(message):
